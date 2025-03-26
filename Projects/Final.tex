@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\hypersetup{ colorlinks=true, linkcolor=blue, filecolor=blue, urlcolor=blue, citecolor=blue}
+\begin{document}
+	
+	\title{Final Project}
+	\author{K.N.Toosi University of Technology\\Introduction to Data Mining}
+	\date{Fall 2024}
+	\maketitle
+	\newpage
+
+	\part{Sales Prediction}
+	\section*{Dataset}
+	The dataset is available for download on the course website.
+	\subsection*{Dataset Description}
+	\begin{itemize}
+		\item \textbf{Store\_id}: A unique identifier for each store.
+		\item \textbf{RetailType}: Category or type of retail store (e.g., grocery, clothing, electronics).
+		\item \textbf{Stock variety}: Range of products offered (e.g., basic, extended, premium).
+		\item \textbf{DistanceToRivalStore}: Distance from this store to its nearest rival.
+		\item \textbf{RivalOpeningMonth}: Month when a rival store opened nearby.
+		\item \textbf{RivalEntryYear}: Year when a nearby rival store entered the market.
+		\item \textbf{ContinuousBogo}: Whether a “Buy One Get One” (BOGO) offer is active.
+		\item \textbf{ContinuousBogoSinceWeek}: Number of weeks since BOGO started.
+		\item \textbf{ContinuousBogoSinceYear}: Year when BOGO started.
+		\item \textbf{ContinuousBogoMonths}: Total months BOGO has been active.
+		\item \textbf{DayOfWeek}: The day of the week sales data was recorded.
+		\item \textbf{Date}: Specific date of sales data.
+		\item \textbf{Sales}: Store's total sales made on the given day.
+		\item \textbf{NumberOfCustomers}: Number of customers visiting the store.
+		\item \textbf{Is\_Open}: Whether the store was open that day (1 for open, 0 for closed).
+		\item \textbf{BOGO}: Whether a BOGO offer was active (1 for active, 0 for not active).
+		\item \textbf{Holiday}: Whether the day was a recognized holiday (1 for holiday, 0 for non-holiday).
+	\end{itemize}
+	
+	\section*{Task}
+	\begin{enumerate}
+		\item \textbf{Load Dataset:}
+		\begin{itemize}
+			\item Read training data from CSV, selecting relevant columns. Consider that some columns may not be useful for your analysis and
+			can be omitted.
+		\end{itemize}
+		\item \textbf{Load and Merge Store Data:}
+		\begin{itemize}
+			\item Read the stores data from another CSV file to get additional information about each store.
+			\item Combine the training and store data based on the store id column
+			to create a comprehensive dataset.
+		\end{itemize}
+		\item \textbf{Train \& Test Data:}
+		\begin{itemize}
+			\item Divide 70\% of the training examples into the training set and use the remaining 30\% as the test set. Select the first 70\% of the examples in chronological order, as we aim to evaluate our models on their ability to extrapolate to dates beyond the training range.
+		\end{itemize}
+		\item \textbf{Preprocess Data:}
+		\begin{itemize}
+			\item Replace the missing values in the ’DistanceToRivalStore’ column with the median of the existing values, and set the remaining missing values to zero. Feel free to modify this for better approaches if you prefer.
+			\item Extract ’Year’, ’Month’, ’Day’, and ’WeekOfYear’ from the ’Date’ column, then remove the ’Date’ column. Utilize the \texttt{pd.to\_datetime} function and its attributes for easy handling.
+			\item Remove the ’Customers’ column since it is not available during testing.
+			\item Standardize features using \texttt{StandardScaler}
+		\end{itemize}
+		\item \textbf{Prepare Data for Modeling:}
+		\begin{itemize}
+			\item Separate the features (X) and the target variable (y), which is total\_sales.
+		\end{itemize}
+		\item \textbf{Train and Evaluate Models:}
+		\begin{itemize}
+			\item Train Linear Regression and Random Forest Regressor; Evaluate their performances on the test data.
+		\end{itemize}
+		\item \textbf{Feature Selection \& Importance:}
+		\begin{itemize}
+			\item Utilize \texttt{feature\_importances\_} from the Random Forest model. Which features were identified as the most important by this model?
+		\end{itemize}
+	\end{enumerate}
+	\newpage
+	\part{Sentiment Analysis}
+	\section*{Dataset}
+	The dataset is available for download on the course website.
+	\section*{Task}
+	\begin{enumerate}
+		\item \textbf{Load and Preprocess Data:}
+		\begin{itemize}
+			\item Load dataset and preprocess reviews (e.g., lowercasing, removing stopwords, punctuation).
+		\end{itemize}
+		\item \textbf{Vectorize Reviews:}
+		\begin{itemize}
+			\item TF-IDF: \texttt{from sklearn.feature\_extraction.text import TfidfVectorizer}
+			\item Word2Vec: \texttt{from gensim.models import Word2Vec}
+			\item BERT: \texttt{from sentence\_transformers import SentenceTransformer}
+		\end{itemize}
+		\item \textbf{Hyperparameter Tuning for Classification Models:}
+		\footnote{Due to the potential data imbalance caused by splitting reviews at a threshold of 3, we compare three different algorithms to ensure robustness.}
+		\begin{itemize}
+			\item Conduct a grid search on each model to identify the optimal hyperparameters, utilizing the F1 score for evaluation.
+			\begin{itemize}
+				\item Logistic Regression
+				\item Random Forests
+				\item K-Nearest Neighbors
+			\end{itemize}
+		\end{itemize}
+	\end{enumerate}
+	\section*{Note}
+	Any attempt to use AI tools for generating the code is strictly prohibited. Students will be asked to present and explain their code during a class session.
+\end{document}
